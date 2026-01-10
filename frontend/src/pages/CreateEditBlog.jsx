@@ -21,17 +21,24 @@ const CreateEditBlog = () => {
     }
   }, [id]);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+ const [error, setError] = useState("");
 
+const submitHandler = async (e) => {
+  e.preventDefault();
+  setError("");
+
+  try {
     if (id) {
       await updateBlog(id, { title, content });
     } else {
       await createBlog({ title, content });
     }
-
     navigate("/");
-  };
+  } catch (err) {
+    setError("Failed to save blog. Please try again.");
+  }
+};
+
 
   return (
     <div className="max-w-3xl mx-auto">
